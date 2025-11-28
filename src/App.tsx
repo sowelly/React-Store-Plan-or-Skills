@@ -5,16 +5,40 @@ import type {MenuProps} from 'antd'
 import {RenderLogProvider, RenderLogPanel} from '@/utils/renderLog'
 import PropsDrillingDemo from '@/demos/props'
 import ContextDemo from '@/demos/context'
-import ZustandHub from '@/demos/zustand'
+import ZustandBasicPage from '@/demos/zustand/basic'
+import ZustandModularPage from '@/demos/zustand/modular'
+import ZustandSlicesPage from '@/demos/zustand/slices'
+import ZustandPitfallsPage from '@/demos/zustand/pitfalls'
+import HookMultiCallScopePage from '@/demos/hooks/multi-call-scope'
+import ZustandSelectorFactoryPage from '@/demos/zustand/selector-factory'
 
 const {Sider, Content, Header} = Layout
 
-type DemoKey = 'props' | 'context' | 'zustand'
+type DemoKey =
+    | 'props'
+    | 'context'
+    | 'zustand-basic'
+    | 'zustand-modular'
+    | 'zustand-slices'
+    | 'zustand-pitfalls'
+    | 'zustand-selector-factory'
+    | 'hook-multi-call-scope'
 
 const menuItems: MenuProps['items'] = [
-    {key: 'props', label: 'Props 传递 / 属性钻探'},
-    {key: 'context', label: 'Context 全局 useState'},
-    {key: 'zustand', label: 'Zustand 方案'},
+    { key: 'props', label: 'Props 传递 / 属性钻探' },
+    { key: 'context', label: 'Context 全局 useState' },
+    {
+        key: 'zustand',
+        label: '引入 Zustand',
+        children: [
+            { key: 'zustand-basic', label: 'Zustand的基础使用' },
+            { key: 'zustand-modular', label: '状态管理的模块化思路' },
+            { key: 'zustand-slices', label: 'Store Slice 模式（推荐）' },
+            { key: 'zustand-selector-factory', label: '工厂函数选择器模式（静态选择）' },
+            { key: 'zustand-pitfalls', label: '常见陷阱' },
+        ],
+    },
+    { key: 'hook-multi-call-scope', label: 'Hook 多次调用的独立状态环境' },
 ]
 
 function App() {
@@ -23,11 +47,21 @@ function App() {
     const content = useMemo(() => {
         switch (active) {
             case 'props':
-                return <PropsDrillingDemo/>
+                return <PropsDrillingDemo />
             case 'context':
-                return <ContextDemo/>
-            case 'zustand':
-                return <ZustandHub/>
+                return <ContextDemo />
+            case 'zustand-basic':
+                return <ZustandBasicPage />
+            case 'zustand-modular':
+                return <ZustandModularPage />
+            case 'zustand-slices':
+                return <ZustandSlicesPage />
+            case 'zustand-pitfalls':
+                return <ZustandPitfallsPage />
+            case 'zustand-selector-factory':
+                return <ZustandSelectorFactoryPage />
+            case 'hook-multi-call-scope':
+                return <HookMultiCallScopePage />
             default:
                 return null
         }
@@ -37,14 +71,18 @@ function App() {
         <Layout style={{ height: '100vh' }}>
             <Sider width={240} theme="dark" breakpoint="lg" collapsedWidth={56}>
                 <div style={{ padding: '12px 16px' }}>
-                    <Typography.Title level={4} style={{ color: '#fff', margin: 0 }}>状态方案演示</Typography.Title>
+                    <Typography.Title level={4} style={{ color: '#fff', margin: 0 }}>react store hooks skills</Typography.Title>
                 </div>
                 <Menu
                     theme="dark"
                     mode="inline"
                     items={menuItems}
                     selectedKeys={[active]}
-                    onClick={(info) => setActive(info.key as DemoKey)}
+                    defaultOpenKeys={["zustand"]}
+                    onClick={(info) => {
+                        if (info.key === 'zustand') return
+                        setActive(info.key as DemoKey)
+                    }}
                 />
             </Sider>
             <Layout>
@@ -63,7 +101,7 @@ function App() {
                             </Col>
                             <Col xs={24} lg={8}>
                                 <div style={{ position: 'sticky', top: 24 }}>
-                                    <Card size="small" bodyStyle={{ height: 'calc(100vh - 180px)', overflow: 'hidden', padding: 0 }}>
+                                    <Card size="small" styles={{ body: { height: 380, overflow: 'hidden', padding: 0 } }}>
                                         <RenderLogPanel title="本演示渲染更新记录" />
                                     </Card>
                                 </div>

@@ -1,5 +1,6 @@
 import React from 'react'
-import { Card, Col, Input, List, Row, Space, Typography, Button } from 'antd'
+import { Card, Col, Input, List, Row, Space, Typography, Button, Tabs } from 'antd'
+import CodeBlock from '@/components/CodeBlock'
 import { RenderHighlight, useRenderTracker } from '@/utils/renderLog'
 import { useChatStore } from '@/store/chat/store'
 import { useShallow } from '@/store/boundStore'
@@ -143,6 +144,64 @@ export const useChatStore = create<ChatStore>()((set, get) => ({
     <Space direction="vertical" style={{ width: '100%' }}>
       <Typography.Title level={4}>Store Slice</Typography.Title>
       <Typography.Paragraph style={{ color: '#666' }}>把“一个全局 Store”拆成多个按功能管理的小模块，再在最终 Store 中组合起来。</Typography.Paragraph>
+      <Tabs
+        defaultActiveKey="slices"
+        items={[
+          { key: 'slices', label: 'Slice 结构', children: <SlicesTab/> },
+          { key: 'derived', label: '派生数据', children: <DerivedTab/> },
+        ]}
+      />
+    </Space>
+  )
+}
+
+function SlicesTab() {
+  const code = `// connectionSlice.ts
+type ConnectionSlice = {
+  connected: boolean
+  connect: () => void
+  disconnect: () => void
+  toggle: () => void
+}
+export const createConnectionSlice = (set, get) => ({
+  connected: false,
+  connect: () => set({ connected: true }),
+  disconnect: () => set({ connected: false }),
+  toggle: () => set(s => ({ connected: !s.connected })),
+})
+
+// messageSlice.ts
+type ChatMessage = { id: number; text: string; sender: 'me' | 'system'; time: number }
+type MessageSlice = {
+  messages: ChatMessage[]
+  addMessage: (text: string, sender?: 'me' | 'system') => void
+  clearMessages: () => void
+}
+export const createMessageSlice = (set, get) => ({
+  messages: [],
+  addMessage: (text, sender = 'me') => set(s => ({
+    messages: [...s.messages, { id: Date.now(), text, sender, time: Date.now() }],
+  })),
+  clearMessages: () => set({ messages: [] }),
+})
+
+// inputSlice.ts
+type InputSlice = { input: string; setInput: (v: string) => void; send: () => void }
+export const createInputSlice = (set, get) => ({
+  input: '',
+  setInput: v => set({ input: v }),
+  send: () => { const text = get().input; if (!text.trim()) return; get().addMessage(text, 'me'); set({ input: '' }) },
+})
+
+// store.ts（组合）
+type ChatStore = ConnectionSlice & MessageSlice & InputSlice
+export const useChatStore = create<ChatStore>()((set, get) => ({
+  ...createConnectionSlice(set, get),
+  ...createMessageSlice(set, get),
+  ...createInputSlice(set, get),
+}))`
+  return (
+    <Space direction="vertical" style={{ width: '100%' }}>
       <Row gutter={[12, 12]}>
         <Col span={12}>
           <Card size="small" title="连接状态">
@@ -164,22 +223,52 @@ export const useChatStore = create<ChatStore>()((set, get) => ({
             <ChatInputPanel />
           </Card>
         </Col>
+      </Row>
+      <CodeBlock code={code} />
+      <Card size="small" title="说明与对照">
+        <Typography.Paragraph>各组件仅订阅所属 slice 片段，互不影响；组合 store 通过切片分治提升可维护性。</Typography.Paragraph>
+      </Card>
+      <BestPracticeCard />
+    </Space>
+  )
+}
+
+function DerivedTab() {
+  const dcode = `// 组件内派生数据读取
+const count = useChatStore(s => s.messages.length)
+const last = useChatStore(s => s.messages.at(-1))
+const summary = useChatStore(useShallow(s => ({ connected: s.connected, count: s.messages.length })))
+
+// 局部筛选派生数据
+const [filter, setFilter] = useState('')
+const filtered = useChatStore(s => s.messages).filter(m => m.text.includes(filter))`
+  return (
+    <Space direction="vertical" style={{ width: '100%' }}>
+      <Row gutter={[12, 12]}>
         <Col span={24}>
           <Card size="small" title="派生数据（组件内计算）">
             <ChatDerivedPanel />
           </Card>
         </Col>
       </Row>
-      <Card size="small" title="说明与对照">
-        <Typography.Paragraph>
-          组件按需订阅：连接面板订阅连接片段；消息列表订阅消息片段；输入面板订阅输入片段。组合读取用 useShallow。派生数据（如消息总数、最后一条消息）在组件内计算，不存入 store，避免无关渲染与状态臃肿。
-        </Typography.Paragraph>
+      <CodeBlock code={dcode} />
+      <Card size="小" title="说明与对照">
+        <Typography.Paragraph>派生数据在组件内计算，不存入 store。使用 useShallow 组合读取，避免不必要渲染。</Typography.Paragraph>
       </Card>
-      <Card size="small" title="代码示例">
-        <pre style={{ margin: 0, whiteSpace: 'pre-wrap', overflow: 'auto', wordBreak: 'break-word' }}>
-          <code>{code + "\n\n// 组件内派生数据读取\nconst count = useChatStore(s => s.messages.length)\nconst last = useChatStore(s => s.messages.at(-1))\nconst summary = useChatStore(useShallow(s => ({ connected: s.connected, count: s.messages.length })))\n\n// 局部筛选派生数据\nconst [filter, setFilter] = useState('')\nconst filtered = useChatStore(s => s.messages).filter(m => m.text.includes(filter))"}</code>
-        </pre>
-      </Card>
+      <BestPracticeCard />
     </Space>
+  )
+}
+
+function BestPracticeCard() {
+  return (
+    <Card size="small" title="最佳实践清单">
+      <Typography.Paragraph>• 单字段订阅：组件仅选择所需字段，减少渲染范围与联动。</Typography.Paragraph>
+      <Typography.Paragraph>• 组合读取用浅比较：当选择器返回对象/数组时，使用 useShallow 保持引用稳定，避免因新引用导致的无谓渲染。</Typography.Paragraph>
+      <Typography.Paragraph>• 切片拆分：按领域（连接、消息、输入等）拆分 store，动作与状态聚合在所在域中，跨域通过上层组合。</Typography.Paragraph>
+      <Typography.Paragraph>• 派生数据就地计算：如计数、最后一条消息、筛选结果在组件内计算，不写入 store，避免状态臃肿与非必要订阅。</Typography.Paragraph>
+      <Typography.Paragraph>• 避免整库订阅：避免直接解构全库值，任意字段变化都会触发渲染，难以定位与优化。</Typography.Paragraph>
+      <Typography.Paragraph>• 选择器稳定性：避免返回新对象引用；必要时以 useShallow 或等价函数保证一次渲染内快照一致。</Typography.Paragraph>
+    </Card>
   )
 }
