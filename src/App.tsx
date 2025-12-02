@@ -5,28 +5,49 @@ import type {MenuProps} from 'antd'
 import {RenderLogProvider, RenderLogPanel} from '@/utils/renderLog'
 import PropsDrillingDemo from '@/demos/props'
 import ContextDemo from '@/demos/context'
+import ContextGlobalUseStatePage from '@/demos/context/global-usestate'
+import ContextLoopTrapPage from '@/demos/context/loop-trap'
+import ContextUnmemoizedProviderPage from '@/demos/context/provider-unmemoized'
 import ZustandBasicPage from '@/demos/zustand/basic'
 import ZustandModularPage from '@/demos/zustand/modular'
 import ZustandSlicesPage from '@/demos/zustand/slices'
 import ZustandPitfallsPage from '@/demos/zustand/pitfalls'
 import HookMultiCallScopePage from '@/demos/hooks/multi-call-scope'
 import ZustandSelectorFactoryPage from '@/demos/zustand/selector-factory'
+import JotaiBasicPage from '@/demos/jotai/basic'
+import JotaiDerivedPage from '@/demos/jotai/derived'
+import JotaiAsyncPage from '@/demos/jotai/async'
 
 const {Sider, Content, Header} = Layout
 
 type DemoKey =
     | 'props'
-    | 'context'
+    | 'context-global'
+    | 'context-mix-local'
+    | 'context-loop-trap'
+    | 'context-unmemoized'
     | 'zustand-basic'
     | 'zustand-modular'
     | 'zustand-slices'
     | 'zustand-pitfalls'
     | 'zustand-selector-factory'
     | 'hook-multi-call-scope'
+    | 'jotai-basic'
+    | 'jotai-derived'
+    | 'jotai-async'
 
 const menuItems: MenuProps['items'] = [
     { key: 'props', label: 'Props 传递 / 属性钻探' },
-    { key: 'context', label: 'Context 全局 useState' },
+    {
+        key: 'context',
+        label: '引入 Context',
+        children: [
+            { key: 'context-global', label: '将 Context 当作全局 useState' },
+            { key: 'context-mix-local', label: '多 Context + 本地状态混用混乱' },
+            { key: 'context-loop-trap', label: '状态循环陷阱' },
+            { key: 'context-unmemoized', label: 'Provider 值未缓存导致重渲染' },
+        ],
+    },
     {
         key: 'zustand',
         label: '引入 Zustand',
@@ -36,6 +57,15 @@ const menuItems: MenuProps['items'] = [
             { key: 'zustand-slices', label: 'Store Slice 模式（推荐）' },
             { key: 'zustand-selector-factory', label: '工厂函数选择器模式（静态选择）' },
             { key: 'zustand-pitfalls', label: '常见陷阱' },
+        ],
+    },
+    {
+        key: 'jotai',
+        label: '引入 Jotai',
+        children: [
+            { key: 'jotai-basic', label: 'Jotai 的基础使用' },
+            { key: 'jotai-derived', label: '派生 Atom（计算状态）' },
+            { key: 'jotai-async', label: '异步 Atom 与 Suspense' },
         ],
     },
     { key: 'hook-multi-call-scope', label: 'Hook 多次调用的独立状态环境' },
@@ -48,8 +78,14 @@ function App() {
         switch (active) {
             case 'props':
                 return <PropsDrillingDemo />
-            case 'context':
+            case 'context-global':
+                return <ContextGlobalUseStatePage />
+            case 'context-mix-local':
                 return <ContextDemo />
+            case 'context-loop-trap':
+                return <ContextLoopTrapPage />
+            case 'context-unmemoized':
+                return <ContextUnmemoizedProviderPage />
             case 'zustand-basic':
                 return <ZustandBasicPage />
             case 'zustand-modular':
@@ -62,6 +98,12 @@ function App() {
                 return <ZustandSelectorFactoryPage />
             case 'hook-multi-call-scope':
                 return <HookMultiCallScopePage />
+            case 'jotai-basic':
+                return <JotaiBasicPage />
+            case 'jotai-derived':
+                return <JotaiDerivedPage />
+            case 'jotai-async':
+                return <JotaiAsyncPage />
             default:
                 return null
         }
@@ -71,16 +113,17 @@ function App() {
         <Layout style={{ height: '100vh' }}>
             <Sider width={240} theme="dark" breakpoint="lg" collapsedWidth={56}>
                 <div style={{ padding: '12px 16px' }}>
-                    <Typography.Title level={4} style={{ color: '#fff', margin: 0 }}>react store hooks skills</Typography.Title>
+                    <Typography.Title level={4} style={{ color: '#fff', margin: 0 }}>react store hooks plan</Typography.Title>
                 </div>
                 <Menu
                     theme="dark"
                     mode="inline"
                     items={menuItems}
                     selectedKeys={[active]}
-                    defaultOpenKeys={["zustand"]}
+                    defaultOpenKeys={["context", "zustand", "jotai"]}
                     onClick={(info) => {
                         if (info.key === 'zustand') return
+                        if (info.key === 'context') return
                         setActive(info.key as DemoKey)
                     }}
                 />

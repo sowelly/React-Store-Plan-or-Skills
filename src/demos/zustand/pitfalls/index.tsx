@@ -187,6 +187,25 @@ function SelectorVsShallowCard() {
   const incTick = useDirectStore.getState().incTick
   const incX = useDirectStore.getState().incX
   const incY = useDirectStore.getState().incY
+  const code = `import { useShallow } from '@/store/boundStore'
+import { useDirectStore } from '@/store/directStore'
+
+// 对象选择器每次返回新对象引用，易触发无关渲染；配合浅比较可保障稳定
+const pairSafe = useDirectStore(useShallow((s) => ({ x: s.x, y: s.y })))
+
+function View() {
+  const incTick = useDirectStore.getState().incTick
+  const incX = useDirectStore.getState().incX
+  const incY = useDirectStore.getState().incY
+  return (
+    <div>
+      <span>浅比较：x={pairSafe.x} y={pairSafe.y}</span>
+      <button onClick={() => incTick()}>Tick +1</button>
+      <button onClick={() => incX()}>X +1</button>
+      <button onClick={() => incY()}>Y +1</button>
+    </div>
+  )
+}`
   return (
     <Card size="small" title="对象选择器联动 vs 浅比较（安全）">
       <Space direction="vertical">
@@ -206,6 +225,7 @@ function SelectorVsShallowCard() {
           <Card size="small"><Typography.Link onClick={() => incY()}>Y +1</Typography.Link></Card>
         </Space>
         <Typography.Paragraph>对照说明：对象选择器每次返回新对象引用，容易在无关更新时触发渲染；浅比较能在值不变时保持稳定，避免无谓渲染与快照不一致。</Typography.Paragraph>
+        <CodeBlock code={code} />
       </Space>
     </Card>
   )
