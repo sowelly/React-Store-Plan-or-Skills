@@ -14,6 +14,8 @@ import ZustandSlicesPage from '@/demos/zustand/slices'
 import ZustandPitfallsPage from '@/demos/zustand/pitfalls'
 import HookMultiCallScopePage from '@/demos/hooks/multi-call-scope'
 import ZustandSelectorFactoryPage from '@/demos/zustand/selector-factory'
+import ZustandMiddlewaresPage from '@/demos/zustand/middlewares'
+import ZustandVanillaFactoryPage from '@/demos/zustand/vanilla-factory'
 import JotaiBasicPage from '@/demos/jotai/basic'
 import JotaiDerivedPage from '@/demos/jotai/derived'
 import JotaiAsyncPage from '@/demos/jotai/async'
@@ -31,6 +33,8 @@ type DemoKey =
     | 'zustand-slices'
     | 'zustand-pitfalls'
     | 'zustand-selector-factory'
+    | 'zustand-vanilla-factory'
+    | 'zustand-middlewares'
     | 'hook-multi-call-scope'
     | 'jotai-basic'
     | 'jotai-derived'
@@ -56,6 +60,8 @@ const menuItems: MenuProps['items'] = [
             { key: 'zustand-modular', label: '状态管理的模块化思路' },
             { key: 'zustand-slices', label: 'Store Slice 模式（推荐）' },
             { key: 'zustand-selector-factory', label: '工厂函数选择器模式（静态选择）' },
+            { key: 'zustand-vanilla-factory', label: '工厂模式创建状态管理（局部/全局）' },
+            { key: 'zustand-middlewares', label: '常用中间件的使用' },
             { key: 'zustand-pitfalls', label: '常见陷阱' },
         ],
     },
@@ -96,6 +102,10 @@ function App() {
                 return <ZustandPitfallsPage />
             case 'zustand-selector-factory':
                 return <ZustandSelectorFactoryPage />
+            case 'zustand-vanilla-factory':
+                return <ZustandVanillaFactoryPage />
+            case 'zustand-middlewares':
+                return <ZustandMiddlewaresPage />
             case 'hook-multi-call-scope':
                 return <HookMultiCallScopePage />
             case 'jotai-basic':
@@ -129,13 +139,6 @@ function App() {
                 />
             </Sider>
             <Layout>
-                {/* <Header style={{ background: '#fff', borderBottom: '1px solid #f0f0f0' }}>
-                    <Typography.Title level={5} style={{ margin: 0 }}>
-                        {active === 'props' && 'Props 传递与属性钻探影响'}
-                        {active === 'context' && 'Context 当作全局 useState 的影响'}
-                        {active === 'zustand' && 'Zustand 切片管理与选择性订阅'}
-                    </Typography.Title>
-                </Header> */}
                 <Content style={{ padding: 24, background: '#fff', overflow: 'auto' }}>
                     <RenderLogProvider>
                         <Row gutter={16}>
