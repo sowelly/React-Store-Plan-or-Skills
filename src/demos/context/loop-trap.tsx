@@ -29,15 +29,15 @@ function AutoIncrementEffect() {
   }, [enabled, count, setCount])
 
   return (
-    <RenderHighlight>
       <Card size="small" title="受控的连锁更新">
-        <Space>
-          <Typography.Text>count={count}</Typography.Text>
-          <Button size="small" onClick={() => setEnabled(true)}>开始</Button>
-          <Button size="small" onClick={() => { setEnabled(false); setCount(0) }}>重置</Button>
-        </Space>
+        <RenderHighlight>
+          <Space>
+            <Typography.Text>count={count}</Typography.Text>
+            <Button size="small" onClick={() => setEnabled(true)}>开始</Button>
+            <Button size="small" onClick={() => { setEnabled(false); setCount(0) }}>重置</Button>
+          </Space>
+        </RenderHighlight>
       </Card>
-    </RenderHighlight>
   )
 }
 
@@ -52,15 +52,15 @@ function NaiveLoopTrap() {
   }, [started, count, setCount])
 
   return (
-    <RenderHighlight>
       <Card size="small" title="依赖环引发的循环">
-        <Space>
-          <Typography.Text>count={count}</Typography.Text>
-          <Button size="small" onClick={() => setStarted(true)}>触发</Button>
-          <Button size="small" onClick={() => { setStarted(false); setCount(0) }}>重置</Button>
-        </Space>
+        <RenderHighlight>
+          <Space>
+            <Typography.Text>count={count}</Typography.Text>
+            <Button size="small" onClick={() => setStarted(true)}>触发</Button>
+            <Button size="small" onClick={() => { setStarted(false); setCount(0) }}>重置</Button>
+          </Space>
+        </RenderHighlight>
       </Card>
-    </RenderHighlight>
   )
 }
 
@@ -83,4 +83,3 @@ export default function ContextLoopTrapPage() {
     </Provider>
   )
 }
-

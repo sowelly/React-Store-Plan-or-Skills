@@ -11,16 +11,16 @@ function Counter({ label, store }: { label: string; store: ReturnType<typeof cre
   const dec = store.getState().decrement
   const reset = store.getState().reset
   return (
-    <RenderHighlight>
-      <Card size="small" title={label}>
+    <Card size="small" title={label}>
+      <RenderHighlight>
         <Space>
           <Typography.Text>count={count}</Typography.Text>
           <Button size="small" onClick={inc}>+1</Button>
           <Button size="small" onClick={dec}>-1</Button>
           <Button size="small" onClick={reset}>重置</Button>
         </Space>
-      </Card>
-    </RenderHighlight>
+      </RenderHighlight>
+    </Card>
   )
 }
 
@@ -84,8 +84,11 @@ export default function View() {
           </Row>
         </Card>
       ))}
-      <Card size="small" title="简易示例代码">
-        <CodeBlock code={code} />
+      <CodeBlock code={code} />
+      <Card size="small" title="说明">
+        <Typography.Paragraph>
+          动态全局 store：运行时按需创建与删除多个全局 store。每个卡片代表一个独立的 store，卡片内的多个组件共享该 store 的状态与动作；通过“新增全局 store”与“删除”按钮管理实例。
+        </Typography.Paragraph>
       </Card>
     </Space>
   )

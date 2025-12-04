@@ -47,8 +47,8 @@ const unsub = useStore.subscribe((s) => s.a + s.b, listener, { fireImmediately: 
 
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
-      <RenderHighlight>
-        <Card size="small" title="选择结果订阅示例">
+      <Card size="small" title="选择结果订阅示例">
+        <RenderHighlight>
           <Space direction="vertical">
             <Typography.Text>a={a} b={b}</Typography.Text>
             <Space>
@@ -59,8 +59,8 @@ const unsub = useStore.subscribe((s) => s.a + s.b, listener, { fireImmediately: 
             <Typography.Text type="secondary">sum(a+b)触发次数={sumHits}</Typography.Text>
             <Typography.Text type="secondary">对象订阅触发次数={objHits}</Typography.Text>
           </Space>
-        </Card>
-      </RenderHighlight>
+        </RenderHighlight>
+      </Card>
       <Card size="small" title="代码与说明">
         <CodeBlock code={code} />
         <Typography.Paragraph>订阅选择结果用于非 React 或跨组件联动，可选择开启 fireImmediately 获取初始值。</Typography.Paragraph>
@@ -68,4 +68,3 @@ const unsub = useStore.subscribe((s) => s.a + s.b, listener, { fireImmediately: 
     </Space>
   )
 }
-

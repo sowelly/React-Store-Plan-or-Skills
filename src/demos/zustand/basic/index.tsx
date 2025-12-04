@@ -50,15 +50,15 @@ function Page() {
         3）按领域拆分 store/slice，减少耦合；
         4）支持持久化与时间旅行等能力，便于调试与恢复。
       </Typography.Paragraph>
-      <RenderHighlight>
-        <Card size="small" title="计数">
+      <Card size="small" title="计数">
+        <RenderHighlight>
           <Space>
             <Typography.Text>count={count}</Typography.Text>
             <Typography.Link onClick={() => inc()}>+1</Typography.Link>
             <Typography.Link onClick={() => dec()}>-1</Typography.Link>
           </Space>
-        </Card>
-      </RenderHighlight>
+        </RenderHighlight>
+      </Card>
       <Card size="small" title="说明与对照">
         <Typography.Paragraph>通过 hook 订阅所需片段（count），动作从 store 中获取，避免不必要渲染。</Typography.Paragraph>
       </Card>

@@ -22,14 +22,14 @@ function ConsumerA() {
   useRenderTracker('Context(Global useState): ConsumerA')
   const { value, setValue } = useGlobal()
   return (
-    <RenderHighlight>
       <Card size="small" title="消费者 A">
-        <Space>
-          <Typography.Text>value={value}</Typography.Text>
-          <Button size="small" onClick={() => setValue(value + 1)}>+1</Button>
-        </Space>
+        <RenderHighlight>
+          <Space>
+            <Typography.Text>value={value}</Typography.Text>
+            <Button size="small" onClick={() => setValue(value + 1)}>+1</Button>
+          </Space>
+        </RenderHighlight>
       </Card>
-    </RenderHighlight>
   )
 }
 
@@ -37,11 +37,11 @@ function ConsumerB() {
   useRenderTracker('Context(Global useState): ConsumerB')
   const { value } = useGlobal()
   return (
-    <RenderHighlight>
       <Card size="small" title="消费者 B">
-        <Typography.Text type="secondary">读取相同全局值（value={value}）</Typography.Text>
+        <RenderHighlight>
+          <Typography.Text type="secondary">读取相同全局值（value={value}）</Typography.Text>
+        </RenderHighlight>
       </Card>
-    </RenderHighlight>
   )
 }
 
@@ -62,4 +62,3 @@ export default function ContextGlobalUseStatePage() {
     </GlobalProvider>
   )
 }
-

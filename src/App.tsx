@@ -16,9 +16,9 @@ import HookMultiCallScopePage from '@/demos/hooks/multi-call-scope'
 import ZustandSelectorFactoryPage from '@/demos/zustand/selector-factory'
 import ZustandMiddlewaresPage from '@/demos/zustand/middlewares'
 import ZustandVanillaFactoryPage from '@/demos/zustand/vanilla-factory'
-import JotaiBasicPage from '@/demos/jotai/basic'
-import JotaiDerivedPage from '@/demos/jotai/derived'
-import JotaiAsyncPage from '@/demos/jotai/async'
+import ZustandGlobalScopeDemoPageA from '@/demos/global-scope-demo/pageA'
+import {globalStore, selectDirect} from './store/globalStore'
+
 
 const {Sider, Content, Header} = Layout
 
@@ -34,103 +34,104 @@ type DemoKey =
     | 'zustand-pitfalls'
     | 'zustand-selector-factory'
     | 'zustand-vanilla-factory'
+    | 'zustand-global-scope-demo'
     | 'zustand-middlewares'
     | 'hook-multi-call-scope'
-    | 'jotai-basic'
-    | 'jotai-derived'
-    | 'jotai-async'
+
 
 const menuItems: MenuProps['items'] = [
-    { key: 'props', label: 'Props 传递 / 属性钻探' },
+    {key: 'props', label: 'Props 传递 / 属性钻探'},
     {
         key: 'context',
         label: '引入 Context',
         children: [
-            { key: 'context-global', label: '将 Context 当作全局 useState' },
-            { key: 'context-mix-local', label: '多 Context + 本地状态混用混乱' },
-            { key: 'context-loop-trap', label: '状态循环陷阱' },
-            { key: 'context-unmemoized', label: 'Provider 值未缓存导致重渲染' },
+            {key: 'context-global', label: '将 Context 当作全局 useState'},
+            {key: 'context-mix-local', label: '多 Context + 本地状态混用混乱'},
+            {key: 'context-loop-trap', label: '状态循环陷阱'},
+            {key: 'context-unmemoized', label: 'Provider 值未缓存导致重渲染'},
         ],
     },
     {
         key: 'zustand',
         label: '引入 Zustand',
         children: [
-            { key: 'zustand-basic', label: 'Zustand的基础使用' },
-            { key: 'zustand-modular', label: '状态管理的模块化思路' },
-            { key: 'zustand-slices', label: 'Store Slice 模式（推荐）' },
-            { key: 'zustand-selector-factory', label: '工厂函数选择器模式（静态选择）' },
-            { key: 'zustand-vanilla-factory', label: '工厂模式创建状态管理（局部/全局）' },
-            { key: 'zustand-middlewares', label: '常用中间件的使用' },
-            { key: 'zustand-pitfalls', label: '常见陷阱' },
+            {key: 'zustand-basic', label: 'Zustand的基础使用'},
+            {key: 'zustand-modular', label: '状态管理的模块化思路'},
+            {key: 'zustand-slices', label: 'Store Slice 模式（推荐）'},
+            {key: 'zustand-selector-factory', label: '工厂函数选择器模式（静态选择）'},
+            {key: 'zustand-vanilla-factory', label: '工厂模式创建状态管理（局部/全局）'},
+            {key: 'zustand-middlewares', label: '常用中间件的使用'},
+            {key: 'zustand-pitfalls', label: '常见陷阱'},
         ],
     },
-    {
-        key: 'jotai',
-        label: '引入 Jotai',
-        children: [
-            { key: 'jotai-basic', label: 'Jotai 的基础使用' },
-            { key: 'jotai-derived', label: '派生 Atom（计算状态）' },
-            { key: 'jotai-async', label: '异步 Atom 与 Suspense' },
-        ],
-    },
-    { key: 'hook-multi-call-scope', label: 'Hook 多次调用的独立状态环境' },
+    {key: 'hook-multi-call-scope', label: 'Hook 多次调用的独立状态环境'},
+    {key: 'zustand-global-scope-demo', label: '状态管理 Demo'},
 ]
 
 function App() {
     const [active, setActive] = useState<DemoKey>('props')
+    const [collapsed, setCollapsed] = useState(false)
+    const userName = globalStore(selectDirect('userName'))
+
+    const AppHeader = () => (
+        <Header style={{background: '#abcdebff', padding: '0 24px'}}>
+            <Typography.Title level={4} style={{color: '#fff', margin: 0, textAlign: 'right'}}>
+                userName：{userName}
+            </Typography.Title>
+        </Header>
+    )
 
     const content = useMemo(() => {
         switch (active) {
             case 'props':
-                return <PropsDrillingDemo />
+                return <PropsDrillingDemo/>
             case 'context-global':
-                return <ContextGlobalUseStatePage />
+                return <ContextGlobalUseStatePage/>
             case 'context-mix-local':
-                return <ContextDemo />
+                return <ContextDemo/>
             case 'context-loop-trap':
-                return <ContextLoopTrapPage />
+                return <ContextLoopTrapPage/>
             case 'context-unmemoized':
-                return <ContextUnmemoizedProviderPage />
+                return <ContextUnmemoizedProviderPage/>
             case 'zustand-basic':
-                return <ZustandBasicPage />
+                return <ZustandBasicPage/>
             case 'zustand-modular':
-                return <ZustandModularPage />
+                return <ZustandModularPage/>
             case 'zustand-slices':
-                return <ZustandSlicesPage />
+                return <ZustandSlicesPage/>
             case 'zustand-pitfalls':
-                return <ZustandPitfallsPage />
+                return <ZustandPitfallsPage/>
             case 'zustand-selector-factory':
-                return <ZustandSelectorFactoryPage />
+                return <ZustandSelectorFactoryPage/>
             case 'zustand-vanilla-factory':
-                return <ZustandVanillaFactoryPage />
+                return <ZustandVanillaFactoryPage/>
+            case 'zustand-global-scope-demo':
+                return <ZustandGlobalScopeDemoPageA/>
             case 'zustand-middlewares':
-                return <ZustandMiddlewaresPage />
+                return <ZustandMiddlewaresPage/>
             case 'hook-multi-call-scope':
-                return <HookMultiCallScopePage />
-            case 'jotai-basic':
-                return <JotaiBasicPage />
-            case 'jotai-derived':
-                return <JotaiDerivedPage />
-            case 'jotai-async':
-                return <JotaiAsyncPage />
+                return <HookMultiCallScopePage/>
             default:
                 return null
         }
     }, [active])
 
     return (
-        <Layout style={{ height: '100vh' }}>
-            <Sider width={240} theme="dark" breakpoint="lg" collapsedWidth={56}>
-                <div style={{ padding: '12px 16px' }}>
-                    <Typography.Title level={4} style={{ color: '#fff', margin: 0 }}>react store hooks plan</Typography.Title>
+        <Layout style={{height: '100vh'}}>
+            <Sider width={240} theme="dark" breakpoint="lg" collapsedWidth={56} collapsible collapsed={collapsed}
+                   onCollapse={(val) => setCollapsed(val)}>
+                <div style={{padding: '12px 16px'}}>
+                    <Typography.Title level={4} style={{
+                        color: '#fff',
+                        margin: 0
+                    }}>{collapsed ? 'RSH' : 'react store hooks plan'}</Typography.Title>
                 </div>
                 <Menu
                     theme="dark"
                     mode="inline"
                     items={menuItems}
                     selectedKeys={[active]}
-                    defaultOpenKeys={["context", "zustand", "jotai"]}
+                    defaultOpenKeys={["context", "zustand"]}
                     onClick={(info) => {
                         if (info.key === 'zustand') return
                         if (info.key === 'context') return
@@ -139,16 +140,16 @@ function App() {
                 />
             </Sider>
             <Layout>
-                <Content style={{ padding: 24, background: '#fff', overflow: 'auto' }}>
+                <Content style={{padding: 24, background: '#fff', overflow: 'auto'}}>
                     <RenderLogProvider>
                         <Row gutter={16}>
                             <Col xs={24} lg={16}>
                                 {content}
                             </Col>
                             <Col xs={24} lg={8}>
-                                <div style={{ position: 'sticky', top: 24 }}>
-                                    <Card size="small" styles={{ body: { height: 380, overflow: 'hidden', padding: 0 } }}>
-                                        <RenderLogPanel title="本演示渲染更新记录" />
+                                <div style={{position: 'sticky', top: 24}}>
+                                    <Card size="small" styles={{body: {height: 780, overflow: 'hidden', padding: 0}}}>
+                                        <RenderLogPanel title="本演示渲染更新记录"/>
                                     </Card>
                                 </div>
                             </Col>

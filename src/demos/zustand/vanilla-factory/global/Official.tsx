@@ -24,16 +24,16 @@ function Counter({ label }: { label: string }) {
   const dec = useStoreWithEqualityFn(store, (s) => s.decrement, shallow)
   const reset = useStoreWithEqualityFn(store, (s) => s.reset, shallow)
   return (
-    <RenderHighlight>
       <Card size="small" title={label}>
-        <Space>
-          <Typography.Text>count={count}</Typography.Text>
-          <Button size="small" onClick={inc}>+1</Button>
-          <Button size="small" onClick={dec}>-1</Button>
-          <Button size="small" onClick={reset}>重置</Button>
-        </Space>
+        <RenderHighlight>
+          <Space>
+            <Typography.Text>count={count}</Typography.Text>
+            <Button size="small" onClick={inc}>+1</Button>
+            <Button size="small" onClick={dec}>-1</Button>
+            <Button size="small" onClick={reset}>重置</Button>
+          </Space>
+        </RenderHighlight>
       </Card>
-    </RenderHighlight>
   )
 }
 

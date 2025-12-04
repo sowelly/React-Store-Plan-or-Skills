@@ -13,16 +13,16 @@ function Counter({ label }: { label: string }) {
   const dec = store.getState().decrement
   const reset = store.getState().reset
   return (
-    <RenderHighlight>
-      <Card size="small" title={label}>
+    <Card size="small" title={label}>
+      <RenderHighlight>
         <Space>
           <Typography.Text>count={count}</Typography.Text>
           <Button size="small" onClick={inc}>+1</Button>
           <Button size="small" onClick={dec}>-1</Button>
           <Button size="small" onClick={reset}>重置</Button>
         </Space>
-      </Card>
-    </RenderHighlight>
+      </RenderHighlight>
+    </Card>
   )
 }
 
@@ -57,12 +57,16 @@ function Counter() {
 }`
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
+
       <Row gutter={[12, 12]}>
         <Col span={12}><Counter label="Counter A" /></Col>
         <Col span={12}><Counter label="Counter B" /></Col>
       </Row>
-      <Card size="small" title="简易示例代码">
-        <CodeBlock code={code} />
+      <CodeBlock code={code} />
+      <Card size="small" title="说明">
+        <Typography.Paragraph>
+          全局 store：多个组件共享同一 store 实例，任何一次更新会同步反馈到所有订阅者。下方 A/B 两个计数器通过同一个 store 读写 count，演示共享状态与 vanilla 读写方式；读取使用 store(selector)，调用动作使用 store.getState().action。
+        </Typography.Paragraph>
       </Card>
     </Space>
   )

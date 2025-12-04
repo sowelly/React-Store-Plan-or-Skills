@@ -42,13 +42,13 @@ function LevelTwo({ value, onChange }: LevelTwoProps) {
 function LevelFour({ value, onChange }: LevelFourProps) {
   useRenderTracker('Props: LevelFour')
   return (
-    <RenderHighlight>
       <Card size="small" title="Level Four">
-        <Space direction="vertical">
-          <LevelFive value={value} onChange={onChange} />
-        </Space>
+        <RenderHighlight>
+          <Space direction="vertical">
+            <LevelFive value={value} onChange={onChange} />
+          </Space>
+        </RenderHighlight>
       </Card>
-    </RenderHighlight>
   )
 }
 

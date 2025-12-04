@@ -35,14 +35,14 @@ function Counter({ label, store }: { label: string; store: ReturnType<typeof cre
   const count = useStoreWithEqualityFn(store, (s) => s.count, shallow)
   const inc = useStoreWithEqualityFn(store, (s) => s.increment, shallow)
   return (
-    <RenderHighlight>
-      <Card size="small" title={label}>
+    <Card size="small" title={label}>
+      <RenderHighlight>
         <Space>
           <Typography.Text>count={count}</Typography.Text>
           <Button size="small" onClick={inc}>+1</Button>
         </Space>
-      </Card>
-    </RenderHighlight>
+      </RenderHighlight>
+    </Card>
   )
 }
 
@@ -100,6 +100,7 @@ export default function App() {
           <Col span={12}><Counter label={`Counter B (Tab ${currentTabIndex + 1})`} store={currentStore} /></Col>
         </Row>
       </Card>
+      <CodeBlock code={code} />
       <Card size="small" title="说明">
         <Space direction="vertical">
           <Typography.Text>通过 Map 工厂方法按 key 惰性创建/复用 vanilla Zustand store。</Typography.Text>
@@ -107,7 +108,6 @@ export default function App() {
           <Typography.Text>组件使用 useStoreWithEqualityFn + shallow 精准订阅，避免不必要重渲染。</Typography.Text>
         </Space>
       </Card>
-      <CodeBlock code={code} />
     </Space>
   )
 }

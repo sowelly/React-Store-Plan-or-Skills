@@ -50,8 +50,8 @@ const useStore = create(
 )`
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
-      <RenderHighlight>
-        <Card size="small" title="持久化示例">
+      <Card size="small" title="持久化示例">
+        <RenderHighlight>
           <Row>
             <Col>
               <Typography.Text>pcount={pcount}</Typography.Text>
@@ -81,8 +81,8 @@ const useStore = create(
               <Button onClick={() => { localStorage.removeItem('zustand-middlewares-persist'); reset() }}>清理本地存储</Button>
             </Col>
           </Row>
-        </Card>
-      </RenderHighlight>
+        </RenderHighlight>
+      </Card>
       
       <CodeBlock code={code} />
       

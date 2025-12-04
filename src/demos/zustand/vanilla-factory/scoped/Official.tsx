@@ -160,26 +160,26 @@ export default function App() {
       <Row gutter={[12, 12]}>
         <Col span={12}>
           <PositionStoreProvider>
-            <RenderHighlight>
               <Card size="small" title="Red Dot（卡片内移动）">
-                <MovingDot color="red" />
+                <RenderHighlight>
+                  <MovingDot color="red" />
+                </RenderHighlight>
               </Card>
-            </RenderHighlight>
           </PositionStoreProvider>
         </Col>
         <Col span={12}>
           <PositionStoreProvider>
-            <RenderHighlight>
               <Card size="small" title="Blue Dot（卡片内移动）">
-                <MovingDot color="blue" />
+                <RenderHighlight>
+                  <MovingDot color="blue" />
+                </RenderHighlight>
               </Card>
-            </RenderHighlight>
           </PositionStoreProvider>
         </Col>
       </Row>
       <CodeBlock code={code} />
 
-      <Card size="small" title="示例说明">
+      <Card size="small" title="说明">
         <Typography.Paragraph>
           本示例展示如何通过 React Context 为 zustand 的 vanilla store 提供作用域，实现两个相互独立的状态实例。每个
           <Typography.Text code>PositionStoreProvider</Typography.Text>

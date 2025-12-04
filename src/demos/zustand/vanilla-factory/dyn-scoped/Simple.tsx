@@ -12,16 +12,16 @@ function Counter({ label }: { label: string }) {
   const dec = store.getState().decrement
   const reset = store.getState().reset
   return (
-    <RenderHighlight>
-      <Card size="small" title={label}>
+    <Card size="small" title={label}>
+      <RenderHighlight>
         <Space>
           <Typography.Text>count={count}</Typography.Text>
           <Button size="small" onClick={inc}>+1</Button>
           <Button size="small" onClick={dec}>-1</Button>
           <Button size="small" onClick={reset}>重置</Button>
         </Space>
-      </Card>
-    </RenderHighlight>
+      </RenderHighlight>
+    </Card>
   )
 }
 
@@ -85,8 +85,11 @@ export default function View() {
           </Card>
         ))}
       </Space>
-      <Card size="small" title="简易示例代码">
-        <CodeBlock code={code} />
+      <CodeBlock code={code} />
+      <Card size="small" title="说明">
+        <Typography.Paragraph>
+          动态作用域 store：按需渲染多个组件实例，每个实例内部拥有独立的 store，彼此互不干扰。可在运行时新增/删除实例，观察各自状态的独立性与生命周期行为。
+        </Typography.Paragraph>
       </Card>
     </Space>
   )

@@ -12,16 +12,16 @@ function Counter({ label }: { label: string }) {
   const dec = store.getState().decrement
   const reset = store.getState().reset
   return (
-    <RenderHighlight>
-      <Card size="small" title={label}>
+    <Card size="small" title={label}>
+      <RenderHighlight>
         <Space>
           <Typography.Text>count={count}</Typography.Text>
           <Button size="small" onClick={inc}>+1</Button>
           <Button size="small" onClick={dec}>-1</Button>
           <Button size="small" onClick={reset}>重置</Button>
         </Space>
-      </Card>
-    </RenderHighlight>
+      </RenderHighlight>
+    </Card>
   )
 }
 
@@ -64,8 +64,11 @@ function Counter() {
         <Col span={12}><Counter label="Counter A" /></Col>
         <Col span={12}><Counter label="Counter B" /></Col>
       </Row>
-      <Card size="small" title="简易示例代码">
-        <CodeBlock code={code} />
+      <CodeBlock code={code} />
+      <Card size="small" title="说明">
+        <Typography.Paragraph>
+          作用域 store（非全局）：每个组件内部独立创建并持有一个 store 实例，彼此互不影响。下方 A/B 两个计数器各自维护独立的 count；组件卸载时对应状态随之释放。
+        </Typography.Paragraph>
       </Card>
     </Space>
   )

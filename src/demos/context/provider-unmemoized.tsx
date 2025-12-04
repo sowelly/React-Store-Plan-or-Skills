@@ -57,14 +57,14 @@ function ConsumerUnmemo() {
   useRenderTracker('Context(Unmemoized): Consumer')
   const { value, setValue } = useUnmemo()
   return (
-    <RenderHighlight>
       <Card size="small" title="未缓存 Provider 值">
-        <Space>
-          <Typography.Text>value={value}</Typography.Text>
-          <Button size="small" onClick={() => setValue(value + 1)}>+1</Button>
-        </Space>
+        <RenderHighlight>
+          <Space>
+            <Typography.Text>value={value}</Typography.Text>
+            <Button size="small" onClick={() => setValue(value + 1)}>+1</Button>
+          </Space>
+        </RenderHighlight>
       </Card>
-    </RenderHighlight>
   )
 }
 
@@ -72,14 +72,14 @@ function ConsumerMemo() {
   useRenderTracker('Context(Memoized): Consumer')
   const { value, setValue } = useMemoCtx()
   return (
-    <RenderHighlight>
       <Card size="small" title="已缓存 Provider 值">
-        <Space>
-          <Typography.Text>value={value}</Typography.Text>
-          <Button size="small" onClick={() => setValue(value + 1)}>+1</Button>
-        </Space>
+        <RenderHighlight>
+          <Space>
+            <Typography.Text>value={value}</Typography.Text>
+            <Button size="small" onClick={() => setValue(value + 1)}>+1</Button>
+          </Space>
+        </RenderHighlight>
       </Card>
-    </RenderHighlight>
   )
 }
 
@@ -108,4 +108,3 @@ export default function ContextUnmemoizedProviderPage() {
     </Space>
   )
 }
-

@@ -36,8 +36,8 @@ const pairSafe = useDirectStore(useShallow(s => ({ x: s.x, y: s.y })))`
           在大型项目中，使用工厂函数生成选择器能统一选择语义与类型约束，减少重复代码与误用；单字段静态选择避免对象选择器带来的不稳定引用与多余渲染。
         </Typography.Paragraph>
 
-      <RenderHighlight>
-        <Card size="small" title="单字段静态选择（x/y/tick）">
+      <Card size="small" title="单字段静态选择（x/y/tick）">
+        <RenderHighlight>
           <Space direction="vertical">
             <Typography.Text>x={x} y={y} tick={tick}</Typography.Text>
             <Space>
@@ -46,14 +46,14 @@ const pairSafe = useDirectStore(useShallow(s => ({ x: s.x, y: s.y })))`
               <Card size="small"><Typography.Link onClick={() => incTick()}>Tick +1</Typography.Link></Card>
             </Space>
           </Space>
-        </Card>
-      </RenderHighlight>
+        </RenderHighlight>
+      </Card>
 
-      <RenderHighlight>
-        <Card size="small" title="组合选择配合浅比较（安全）">
+      <Card size="small" title="组合选择配合浅比较（安全）">
+        <RenderHighlight>
           <Typography.Text>pairSafe: x={pairSafe.x} y={pairSafe.y}</Typography.Text>
-        </Card>
-      </RenderHighlight>
+        </RenderHighlight>
+      </Card>
 
       <Card size="small" title="说明与对照">
         <Typography.Paragraph>等价性：工厂选择器与传统 selector 在运行结果上等价，核心都是将选择器传给订阅以按需获取片段。</Typography.Paragraph>
@@ -67,4 +67,3 @@ const pairSafe = useDirectStore(useShallow(s => ({ x: s.x, y: s.y })))`
     </Space>
   )
 }
-

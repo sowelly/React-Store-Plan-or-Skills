@@ -45,15 +45,15 @@ function GlobalBanner() {
   useRenderTracker('Context: GlobalBanner')
   const { value, setValue } = useGlobal()
   return (
-    <RenderHighlight>
       <Card size="small" title="全局横幅（消费 Global）">
-        <Space>
-          <Typography.Text>global={value}</Typography.Text>
-          <Button size="small" onClick={() => setValue(value + 1)}>+1</Button>
-          <Button size="small" onClick={() => setValue(0)}>重置</Button>
-        </Space>
+        <RenderHighlight>
+          <Space>
+            <Typography.Text>global={value}</Typography.Text>
+            <Button size="small" onClick={() => setValue(value + 1)}>+1</Button>
+            <Button size="small" onClick={() => setValue(0)}>重置</Button>
+          </Space>
+        </RenderHighlight>
       </Card>
-    </RenderHighlight>
   )
 }
 

@@ -180,23 +180,23 @@ export default function App() {
 }`
 
   return (
-    <RenderHighlight>
       <Card size="small" title={`Tabs (${currentTabIndex + 1})`}>
-        <Space direction="vertical" style={{ width: '100%' }}>
-          <Space>
-            <Button size="small" onClick={() => setCurrentTabIndex(0)}>Tab 1</Button>
-            <Button size="small" onClick={() => setCurrentTabIndex(1)}>Tab 2</Button>
-            <Button size="small" onClick={() => setCurrentTabIndex(2)}>Tab 3</Button>
+        <RenderHighlight>
+          <Space direction="vertical" style={{ width: '100%' }}>
+            <Space>
+              <Button size="small" onClick={() => setCurrentTabIndex(0)}>Tab 1</Button>
+              <Button size="small" onClick={() => setCurrentTabIndex(1)}>Tab 2</Button>
+              <Button size="small" onClick={() => setCurrentTabIndex(2)}>Tab 3</Button>
+            </Space>
+            <Space>
+              <Typography.Text>Content of Tab {currentTabIndex + 1}</Typography.Text>
+              <Button size="small" type="primary" onClick={() => counterState.increment()}>
+                Count: {counterState.count}
+              </Button>
+            </Space>
           </Space>
-          <Space>
-            <Typography.Text>Content of Tab {currentTabIndex + 1}</Typography.Text>
-            <Button size="small" type="primary" onClick={() => counterState.increment()}>
-              Count: {counterState.count}
-            </Button>
-          </Space>
-        </Space>
+        </RenderHighlight>
       </Card>
-    </RenderHighlight>
   )
 }
 

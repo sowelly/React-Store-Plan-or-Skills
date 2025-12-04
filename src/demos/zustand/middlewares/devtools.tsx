@@ -36,16 +36,16 @@ const useStore = create(
 )`
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
-      <RenderHighlight>
-        <Card size="small" title="DevTools 示例">
+      <Card size="small" title="DevTools 示例">
+        <RenderHighlight>
           <Space>
             <Typography.Text>count={count}</Typography.Text>
             <Button onClick={() => inc()}>+1</Button>
             <Button onClick={() => dec()}>-1</Button>
             <Button onClick={() => reset()}>重置</Button>
           </Space>
-        </Card>
-      </RenderHighlight>
+        </RenderHighlight>
+      </Card>
       <CodeBlock code={code} />
       <Card size="small" title="说明">
         <Typography.Paragraph>为 Store 命名以便在 Redux DevTools 面板中区分与时间旅行。</Typography.Paragraph>
@@ -53,4 +53,3 @@ const useStore = create(
     </Space>
   )
 }
-
