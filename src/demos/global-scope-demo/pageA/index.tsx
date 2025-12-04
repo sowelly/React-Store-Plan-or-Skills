@@ -110,9 +110,9 @@ export default function PageA() {
     const username = globalStore(selectDirect('userName'))
 
     const items = useMemo(() => ([
-        {key: 'tab1', label: 'TAB 1', children: <TABContent/>},
-        {key: 'tab2', label: 'TAB 2', children: <TABContent2/>},
-        {key: 'tab3', label: 'TAB 3（non-page-global）', children: <TABContent3/>},
+        {key: 'tab1', label: 'list 1', children: <TABContent/>},
+        {key: 'tab2', label: 'form data', children: <TABContent2/>},
+        {key: 'tab3', label: 'image Masonry', children: <TABContent3/>},
     ]), [])
 
     const codePage = `import { globalStore, selectDirect } from '@/store/globalStore'

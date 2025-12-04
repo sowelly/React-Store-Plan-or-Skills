@@ -12,7 +12,6 @@ import ZustandBasicPage from '@/demos/zustand/basic'
 import ZustandModularPage from '@/demos/zustand/modular'
 import ZustandSlicesPage from '@/demos/zustand/slices'
 import ZustandPitfallsPage from '@/demos/zustand/pitfalls'
-import HookMultiCallScopePage from '@/demos/hooks/multi-call-scope'
 import ZustandSelectorFactoryPage from '@/demos/zustand/selector-factory'
 import ZustandMiddlewaresPage from '@/demos/zustand/middlewares'
 import ZustandVanillaFactoryPage from '@/demos/zustand/vanilla-factory'
@@ -36,7 +35,6 @@ type DemoKey =
     | 'zustand-vanilla-factory'
     | 'zustand-global-scope-demo'
     | 'zustand-middlewares'
-    | 'hook-multi-call-scope'
 
 
 const menuItems: MenuProps['items'] = [
@@ -64,7 +62,6 @@ const menuItems: MenuProps['items'] = [
             {key: 'zustand-pitfalls', label: '常见陷阱'},
         ],
     },
-    {key: 'hook-multi-call-scope', label: 'Hook 多次调用的独立状态环境'},
     {key: 'zustand-global-scope-demo', label: '状态管理 Demo'},
 ]
 
@@ -109,8 +106,6 @@ function App() {
                 return <ZustandGlobalScopeDemoPageA/>
             case 'zustand-middlewares':
                 return <ZustandMiddlewaresPage/>
-            case 'hook-multi-call-scope':
-                return <HookMultiCallScopePage/>
             default:
                 return null
         }
