@@ -119,7 +119,7 @@ function App() {
                     <Typography.Title level={4} style={{
                         color: '#fff',
                         margin: 0
-                    }}>{collapsed ? 'RSH' : 'react store hooks plan'}</Typography.Title>
+                    }}>{collapsed ? 'R' : 'react store plan'}</Typography.Title>
                 </div>
                 <Menu
                     theme="dark"
