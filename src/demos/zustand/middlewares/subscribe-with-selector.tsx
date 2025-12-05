@@ -47,6 +47,17 @@ const unsub = useStore.subscribe((s) => s.a + s.b, listener, { fireImmediately: 
 
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
+      <Card size="small" title="代码与说明">
+        <Typography.Text >
+          subscribeWithSelector 主要用来增强 store 的订阅能力：
+          它允许你精确订阅 Store 的某一部分（selector），只有当那部分变化时才触发回调。
+        </Typography.Text>
+        <Typography.Text >不用订整个 store</Typography.Text>
+        <Typography.Text >不用手写 diff</Typography.Text>
+        <Typography.Text >不用 useSelector Hook</Typography.Text>
+        <Typography.Text >直接对“某段状态”做订阅（含局部对比）</Typography.Text>
+      </Card>
+
       <Card size="small" title="选择结果订阅示例">
         <RenderHighlight>
           <Space direction="vertical">
@@ -61,9 +72,21 @@ const unsub = useStore.subscribe((s) => s.a + s.b, listener, { fireImmediately: 
           </Space>
         </RenderHighlight>
       </Card>
+      <CodeBlock code={code} />
       <Card size="small" title="代码与说明">
-        <CodeBlock code={code} />
-        <Typography.Paragraph>订阅选择结果用于非 React 或跨组件联动，可选择开启 fireImmediately 获取初始值。</Typography.Paragraph>
+        <Typography.Paragraph>订阅选择结果用于非 React 或跨组件联动，可选择开启 fireImmediately 获取初始值。        </Typography.Paragraph>
+        <Typography.Paragraph>subscribe(selector, listener, options?)</Typography.Paragraph>
+        <Typography.Paragraph>
+          参数说明：
+          <Typography.Text code>selector</Typography.Text> 为选择器函数，返回被订阅的片段；
+          <Typography.Text code>listener</Typography.Text> 回调签名为 <Typography.Text code>(selected, prevSelected)</Typography.Text>；
+          <Typography.Text code>options</Typography.Text> 可选项包括：
+          <Typography.Text code>fireImmediately</Typography.Text>（默认 <Typography.Text code>false</Typography.Text>，立即触发一次回调以获得当前初始值）、
+          <Typography.Text code>equalityFn</Typography.Text>（用于比较 <Typography.Text code>prevSelected</Typography.Text> 与 <Typography.Text code>selected</Typography.Text> 是否变化，默认 <Typography.Text code>Object.is</Typography.Text>，对象订阅可使用 <Typography.Text code>shallow</Typography.Text> 实现浅比较）。
+        </Typography.Paragraph>
+        <Typography.Paragraph>
+          返回值：取消订阅函数 <Typography.Text code>() =&gt; void</Typography.Text>，组件卸载或不再需要时调用以清理资源。
+        </Typography.Paragraph>
       </Card>
     </Space>
   )

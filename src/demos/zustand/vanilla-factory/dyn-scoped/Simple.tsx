@@ -6,7 +6,7 @@ import CodeBlock from '@/components/CodeBlock'
 
 function Counter({ label }: { label: string }) {
   useRenderTracker('VanillaFactory: DynScoped Simple ' + label)
-  const store = useMemo(() => createCounterStore(), [])
+  const [store] = useState(createCounterStore)
   const count = store((s) => s.count)
   const inc = store.getState().increment
   const dec = store.getState().decrement
@@ -32,7 +32,7 @@ export default function DynScopedSimple() {
   const addInstance = () => setIds((arr) => [...arr, nextId])
   const removeInstance = (id: number) => setIds((arr) => arr.filter((x) => x !== id))
   const code = `import { create } from 'zustand'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 
 type CounterState = { count: number }
 type CounterActions = { increment: () => void; decrement: () => void; reset: () => void }
@@ -48,7 +48,7 @@ const createCounterStore = () => (
 )
 
 function Counter() {
-  const store = useMemo(() => createCounterStore(), [])
+  const [store] = useState(createCounterStore)
   const count = store(s => s.count)
   const inc = store.getState().increment
   const dec = store.getState().decrement

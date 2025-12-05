@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useState } from 'react'
 import { Button, Card, Col, Row, Space, Typography } from 'antd'
 import { RenderHighlight, useRenderTracker } from '@/utils/renderLog'
 import { createCounterStore } from '../store'
@@ -6,7 +6,7 @@ import CodeBlock from '@/components/CodeBlock'
 
 function Counter({ label }: { label: string }) {
   useRenderTracker('VanillaFactory: Scoped Simple ' + label)
-  const store = useMemo(() => createCounterStore(), [])
+  const [store] = useState(createCounterStore)
   const count = store((s) => s.count)
   const inc = store.getState().increment
   const dec = store.getState().decrement
@@ -28,7 +28,7 @@ function Counter({ label }: { label: string }) {
 export default function ScopedSimple() {
   useRenderTracker('VanillaFactory: Scoped Simple Tab')
   const code = `import { create } from 'zustand'
-import { useMemo } from 'react'
+import { useState } from 'react'
 
 type CounterState = { count: number }
 type CounterActions = { increment: () => void; decrement: () => void; reset: () => void }
@@ -44,7 +44,7 @@ const createCounterStore = () => (
 )
 
 function Counter() {
-  const store = useMemo(() => createCounterStore(), [])
+  const [store] = useState(createCounterStore)
   const count = store(s => s.count)
   const inc = store.getState().increment
   const dec = store.getState().decrement

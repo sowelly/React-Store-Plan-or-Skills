@@ -160,20 +160,20 @@ export default function App() {
       <Row gutter={[12, 12]}>
         <Col span={12}>
           <PositionStoreProvider>
-              <Card size="small" title="Red Dot（卡片内移动）">
-                <RenderHighlight>
-                  <MovingDot color="red" />
-                </RenderHighlight>
-              </Card>
+            <Card size="small" title="Red Dot（卡片内移动）">
+              <RenderHighlight>
+                <MovingDot color="red" />
+              </RenderHighlight>
+            </Card>
           </PositionStoreProvider>
         </Col>
         <Col span={12}>
           <PositionStoreProvider>
-              <Card size="small" title="Blue Dot（卡片内移动）">
-                <RenderHighlight>
-                  <MovingDot color="blue" />
-                </RenderHighlight>
-              </Card>
+            <Card size="small" title="Blue Dot（卡片内移动）">
+              <RenderHighlight>
+                <MovingDot color="blue" />
+              </RenderHighlight>
+            </Card>
           </PositionStoreProvider>
         </Col>
       </Row>
@@ -188,6 +188,12 @@ export default function App() {
         <Typography.Paragraph>
           组件内部使用 <Typography.Text code>useStoreWithEqualityFn</Typography.Text> 搭配
           <Typography.Text code>shallow</Typography.Text> 进行选择器订阅和浅比较，减少不必要的重渲染；配合演示中的渲染标记可直观看到更新范围。
+        </Typography.Paragraph>
+        <Typography.Paragraph>
+          为什么使用 <Typography.Text code>useState(createStoreFn)</Typography.Text> 初始化 store：
+          其惰性初始化仅在首次挂载执行一次，随后保持同一实例引用，不因重渲染而重新创建；相比 <Typography.Text code>useMemo</Typography.Text>，
+          在严格模式或依赖变化场景中可能再次计算，不适合承载“实例唯一性”的语义；相比 <Typography.Text code>useRef(createStoreFn())</Typography.Text>，
+          初始值表达式会在每次渲染求值（若写成函数调用），而 <Typography.Text code>useState</Typography.Text> 更符合“组件作用域持有单例 store、随 Provider 生命周期管理”的预期。
         </Typography.Paragraph>
       </Card>
     </Space>

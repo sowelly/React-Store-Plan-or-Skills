@@ -4,13 +4,12 @@
     height: 100vh;
 }
 
-body {
-}
+body {}
 
 /* Thin scrollbar globally */
 * {
     scrollbar-width: thin;
-    scrollbar-color: rgba(0,0,0,0.25) transparent;
+    scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
 }
 
 *::-webkit-scrollbar {
@@ -19,7 +18,7 @@ body {
 }
 
 *::-webkit-scrollbar-thumb {
-    background-color: rgba(0,0,0,0.25);
+    background-color: rgba(0, 0, 0, 0.25);
     border-radius: 8px;
 }
 
@@ -55,6 +54,7 @@ body {
     from {
         transform: rotate(0deg);
     }
+
     to {
         transform: rotate(360deg);
     }
@@ -73,3 +73,5 @@ body {
 .read-the-docs {
     color: #888;
 }
+
+

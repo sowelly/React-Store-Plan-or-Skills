@@ -88,6 +88,19 @@ const useStore = create(
       
       <Card size="small" title="说明">
         <Typography.Paragraph>使用 JSONStorage 将状态保存到 localStorage，并在恢复后标记 hydrated。</Typography.Paragraph>
+        <Typography.Paragraph>
+          关键配置：<Typography.Text code>name</Typography.Text> 为存储键名；
+          <Typography.Text code>storage</Typography.Text> 指定存储后端（可换为 <Typography.Text code>sessionStorage</Typography.Text> 或自定义实现）；
+          <Typography.Text code>onRehydrateStorage</Typography.Text> 提供恢复回调，常用于设置 <Typography.Text code>hydrated=true</Typography.Text> 以指示“已完成持久化恢复”。
+        </Typography.Paragraph>
+        <Typography.Paragraph>
+          其他常用选项：<Typography.Text code>partialize</Typography.Text>（仅持久化部分字段）、
+          <Typography.Text code>version</Typography.Text> 与 <Typography.Text code>migrate</Typography.Text>（结构变更时进行迁移）、
+          <Typography.Text code>merge</Typography.Text>（控制恢复合并策略）。合理配置可避免无关数据被持久化，便于演进。
+        </Typography.Paragraph>
+        <Typography.Paragraph>
+          在恢复完成前 UI 可依据 <Typography.Text code>hydrated</Typography.Text> 做占位或禁用交互；SSR 或隐私场景可替换存储后端或关闭持久化以规避不必要的数据落地。
+        </Typography.Paragraph>
       </Card>
     </Space>
   )

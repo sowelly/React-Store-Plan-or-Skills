@@ -1,4 +1,4 @@
-import { createContext, useContext, useRef, type ReactNode } from 'react'
+import { createContext, useContext, useState, type ReactNode } from 'react'
 import { useStoreWithEqualityFn } from 'zustand/traditional'
 import { shallow } from 'zustand/shallow'
 import type { StoreApi, UseBoundStore } from 'zustand'
@@ -8,7 +8,7 @@ export function createContextStore<S>(createStoreFn: () => UseBoundStore<StoreAp
   const Ctx = createContext<UseBoundStore<StoreApi<S>> | null>(null)
 
   const Provider = ({ children }: { children: ReactNode }) => {
-    const store = useRef(createStoreFn()).current
+    const [store] = useState(createStoreFn)
     return React.createElement(Ctx.Provider, { value: store }, children)
   }
 

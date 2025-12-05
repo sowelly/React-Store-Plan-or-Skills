@@ -228,7 +228,7 @@ export function createContextStore<S>(createStoreFn: () => UseBoundStore<StoreAp
   const Ctx = createContext<UseBoundStore<StoreApi<S>> | null>(null)
 
   const Provider = ({ children }: { children: ReactNode }) => {
-    const store = useRef(createStoreFn()).current
+     const [store] = useState(createStoreFn)
     return React.createElement(Ctx.Provider, { value: store }, children)
   }
 
@@ -324,6 +324,7 @@ export default picStoreSlice`
                         Store（基于 <Typography.Text code>createContextStore</Typography.Text>）进行隔离，Tabs
                         内的数据使用slice方案进行切分避免store臃肿。
                     </Typography.Paragraph>
+               
                 </Card>
                 <Card size={"small"} title={'global username'}> {username}</Card>
 
